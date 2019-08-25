@@ -1,6 +1,11 @@
 // from data.js
 var tableData = data;
-var dateInput = d3.select('#datetime');
+var dateInput = d3.selectAll('#datetime');
+var cityInput = d3.selectAll('#city');
+var stateInput = d3.selectAll('#state');
+var countryInput = d3.selectAll('#country');
+var shapeInput = d3.selectAll('#shape');
+
 var button = d3.select('button');
 var table = d3.select('tbody');
 
@@ -23,8 +28,20 @@ createTable(tableData);
 
 // event handler
 function tableFilter(){
+    /*  If I was clever, I could probobly use these and a loop to clean up the mess below
+    Inputs.nodes().forEach(function(d,i) {
+        console.log(d3.select(d).property("value"))})
+
+    Inputs.nodes().forEach(function(d,i) {
+        console.log(d3.select(d).attr('id'))})
+    */
+
     var filteredData = tableData.filter(sighting => (
-        sighting.datetime == dateInput.property("value")
+        [sighting.datetime, ''].includes(dateInput.property("value")) &&
+        [sighting.state, ''].includes(stateInput.property("value")) &&
+        [sighting.city, ''].includes(cityInput.property("value")) &&
+        [sighting.country, ''].includes(countryInput.property("value")) &&
+        [sighting.shape, ''].includes(shapeInput.property("value"))
     ));
     createTable(filteredData);
 }
